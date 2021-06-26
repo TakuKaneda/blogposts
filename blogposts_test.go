@@ -1,8 +1,6 @@
 package blogposts_test
 
 import (
-	"errors"
-	"io/fs"
 	"reflect"
 	"testing"
 	"testing/fstest"
@@ -25,16 +23,12 @@ func TestNewBlogPosts(t *testing.T) {
 		t.Errorf("got %d posts, but want %d posts", len(posts), len(fs))
 	}
 
-	got := posts[0]
-	want := blogposts.Post{Title: "Post 1"}
+	assertPost(t, posts[0], blogposts.Post{Title: "Post 1"})
+}
 
+func assertPost(t *testing.T, got blogposts.Post, want blogposts.Post) {
+	t.Helper()
 	if !reflect.DeepEqual(got, want) {
 		t.Errorf("got %+v, want %+v", got, want)
 	}
-}
-
-type StubFailingFS struct{}
-
-func (s StubFailingFS) Open(name string) (fs.File, error) {
-	return nil, errors.New("oh no, i always fail")
 }
