@@ -4,7 +4,7 @@ import (
 	"io/fs"
 )
 
-func NewPostFromFS(fileSystem fs.FS) ([]Post, error) {
+func NewPostsFromFS(fileSystem fs.FS) ([]Post, error) {
 	dir, err := fs.ReadDir(fileSystem, ".")
 	if err != nil {
 		return nil, err
@@ -20,6 +20,7 @@ func NewPostFromFS(fileSystem fs.FS) ([]Post, error) {
 	return posts, nil
 }
 
+// getPost gets Post of file name given file system.
 func getPost(fileSystem fs.FS, fileName string) (Post, error) {
 	postFile, err := fileSystem.Open(fileName)
 	if err != nil {
